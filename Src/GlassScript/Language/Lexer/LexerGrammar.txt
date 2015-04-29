@@ -1,0 +1,18 @@
+﻿#################################
+#                               #
+#   GlassScript Lexer Grammar   #
+#                               #
+#################################
+
+letter := a-z | A-Z
+digit := 0-9
+
+identifier := ( letter | '_' ) + [ letter | digit | '_' ]*
+
+integer := digit*
+float := ( [ integer ] + '.' + integer + [ 'f' ]  ) | ( digit + '.' + integer 'e' + [ '+' | '-' ] + integer )
+
+keyword := 'class' | 'func' | 'new' | 'if' | 'else' | 'switch' | 'case' | 'default' | 'while' | 'for'
+
+lineComment := '//' + [ any char ]* + new line
+blockComment := '/*' + [ any char ]* + '*/'
