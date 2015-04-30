@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlassScript.cs" />
+    <Compile Include="Language\ErrorSink.cs" />
     <Compile Include="Language\Lexer\GlassScriptLexer.cs" />
     <Compile Include="Language\Lexer\StringExtensions.cs" />
     <Compile Include="Language\SourceLocation.cs" />
