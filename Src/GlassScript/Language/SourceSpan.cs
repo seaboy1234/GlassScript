@@ -51,5 +51,10 @@ namespace GlassScript.Language
         {
             return 0x509CE ^ Start.GetHashCode() ^ End.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"{_start.Line} {_start.Column} {Length}";
+        }
     }
 }
