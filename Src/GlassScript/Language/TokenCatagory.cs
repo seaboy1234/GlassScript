@@ -8,6 +8,16 @@ namespace GlassScript.Language
 {
     public enum TokenCatagory
     {
-        Unknown
+        Unknown,
+        WhiteSpace,
+        Comment,
+
+        Constant,
+        Identifier,
+        Grouping,
+        Punctuation,
+        Operator,
+
+        Invalid,
     }
 }
