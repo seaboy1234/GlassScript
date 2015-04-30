@@ -4,15 +4,27 @@
 #                               #
 #################################
 
-letter := a-z | A-Z
-digit := 0-9
+letter = ? Any US-ASCII Letter ? ;
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 
-identifier := ( letter | '_' ) + [ letter | digit | '_' ]*
+identifier = ( letter | "_" ), { letter | digit | "_" } ;
 
-integer := digit*
-float := ( [ integer ] + '.' + integer + [ 'f' ]  ) | ( digit + '.' + integer 'e' + [ '+' | '-' ] + integer )
+integer = digit, { digit } ;
 
-keyword := 'class' | 'func' | 'new' | 'if' | 'else' | 'switch' | 'case' | 'default' | 'while' | 'for'
+ten to the n = "e", [ "+" | "-" ], integer ;
 
-lineComment := '//' + [ any char ]* + new line
-blockComment := '/*' + [ any char ]* + '*/'
+point float =   ".", integer ;
+simple float = integer, point float ;
+science float = [ digit ], point float, ten to the n ;
+whole number sf = digit, ten to the n ;
+
+float = ( ( point float | simple float | science float | whole number sf ), [ "f" ] ) | ( integer, "f" ) ;
+
+keyword = "class" | "func" | "new" | "if" | "else" | "switch" | "case" | "default" | "do" | "while" | "for" | "var" | "null" ;
+
+new line = ? US-ASCII New Line (* \n in most languages *) ? ;
+
+lineComment = "//", { ? Any US-ASCII Char ? - new line }, + new line ;
+blockComment = "/*", { ? Any US-ASCII Char ? }, "*/" ;
+
+(* Punctuation excluded for brevity *)
