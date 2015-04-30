@@ -12,16 +12,16 @@ namespace GlassScript.Language
 
         public TokenCatagory Catagory => _catagory.Value;
 
-        public string Contents { get; }
-
         public TokenKind Kind { get; }
 
         public SourceSpan Span { get; }
 
+        public string Value { get; }
+
         public Token(TokenKind kind, string contents, SourceLocation start, SourceLocation end)
         {
             Kind = kind;
-            Contents = contents;
+            Value = contents;
             Span = new SourceSpan(start, end);
 
             _catagory = new Lazy<TokenCatagory>(GetTokenCatagory);
@@ -29,12 +29,12 @@ namespace GlassScript.Language
 
         public static bool operator !=(Token left, string right)
         {
-            return left?.Contents != right;
+            return left?.Value != right;
         }
 
         public static bool operator !=(string left, Token right)
         {
-            return right?.Contents != left;
+            return right?.Value != left;
         }
 
         public static bool operator !=(Token left, TokenKind right)
@@ -49,12 +49,12 @@ namespace GlassScript.Language
 
         public static bool operator ==(Token left, string right)
         {
-            return left?.Contents == right;
+            return left?.Value == right;
         }
 
         public static bool operator ==(string left, Token right)
         {
-            return right?.Contents == left;
+            return right?.Value == left;
         }
 
         public static bool operator ==(Token left, TokenKind right)
@@ -82,14 +82,14 @@ namespace GlassScript.Language
             {
                 return false;
             }
-            return other.Contents == Contents &&
+            return other.Value == Value &&
                    other.Span == Span &&
                    other.Kind == Kind;
         }
 
         public override int GetHashCode()
         {
-            return Contents.GetHashCode() ^ Span.GetHashCode() ^ Kind.GetHashCode();
+            return Value.GetHashCode() ^ Span.GetHashCode() ^ Kind.GetHashCode();
         }
 
         public bool IsTrivia()
