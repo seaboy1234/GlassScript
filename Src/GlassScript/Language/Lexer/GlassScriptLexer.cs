@@ -235,6 +235,11 @@ namespace GlassScript.Language.Lexer
             if (_ch == 'f')
             {
                 Advance();
+                if ((!IsWhiteSpace() && !IsPunctuation() && !IsEOF()) || _ch == '.')
+                {
+                    return ScanWord(message: "Remove 'f' in floating point number.");
+                }
+                return CreateToken(TokenKind.FloatLiteral);
             }
             int preDotLength = _index - _tokenStart.Index;
 

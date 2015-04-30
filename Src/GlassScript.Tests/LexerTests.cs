@@ -25,11 +25,12 @@ namespace GlassScript.Tests
 
         [Theory]
         [InlineData("9float")]
+        [InlineData("1f.3")]
         [InlineData("2data")]
         [InlineData("\"")]
         public void LexerShouldOutputError(string value)
         {
-            var token = lexer.LexFile(value).First();
+            var token = lexer.LexFile(value).ToArray();
 
             Assert.True(lexer.ErrorSink.Count() == 1);
 
