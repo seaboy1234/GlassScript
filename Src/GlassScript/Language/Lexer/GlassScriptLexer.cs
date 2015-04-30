@@ -15,13 +15,12 @@ namespace GlassScript.Language.Lexer
         private ErrorSink _errorSink;
         private int _index;
         private int _line;
-        private string[] _lines;
-        private string _sourceCode;
+        private SourceCode _sourceCode;
         private SourceLocation _tokenStart;
 
         public ErrorSink ErrorSink => _errorSink;
 
-        private char _ch => _sourceCode.CharAt(_index);
+        private char _ch => _sourceCode[_index];
 
         private char _last => Peek(-1);
 
@@ -36,18 +35,15 @@ namespace GlassScript.Language.Lexer
         {
             _errorSink = errorSink;
             _builder = new StringBuilder();
-            _sourceCode = "";
+            _sourceCode = null;
         }
 
         public IEnumerable<Token> LexFile(string sourceCode)
         {
-            _sourceCode = sourceCode;
-            _lines = _sourceCode.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            _sourceCode = new SourceCode(sourceCode);
             _builder.Clear();
-            _column = 0;
             _line = 1;
-            _index = 0;
-            _tokenStart = new SourceLocation(_index, _last, _column);
+            CreateToken(TokenKind.EndOfFile);
 
             return LexContents();
         }
@@ -55,7 +51,7 @@ namespace GlassScript.Language.Lexer
         private void AddError(string message, Severity severity)
         {
             var span = new SourceSpan(_tokenStart, new SourceLocation(_index, _line, _column));
-            _errorSink.AddError(message, _lines[_line - 1], severity, span);
+            _errorSink.AddError(message, _sourceCode, severity, span);
         }
 
         private void Advance()
@@ -187,7 +183,7 @@ namespace GlassScript.Language.Lexer
 
         private char Peek(int ahead)
         {
-            return _sourceCode.CharAt(_index + ahead);
+            return _sourceCode[_index + ahead];
         }
 
         private Token ScanBlockComment()

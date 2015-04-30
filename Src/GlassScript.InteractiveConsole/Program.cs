@@ -43,13 +43,26 @@ namespace GlassScript.InteractiveConsole
         private static void WriteError(ErrorEntry error)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-
-            Console.WriteLine(error.Line);
             Console.CursorLeft = error.Span.Start.Column;
 
-            Console.WriteLine(new string('^', error.Span.Length));
-            Console.WriteLine($"{error.Severity} {error.Span}: {error.Message}");
-
+            if (error.Lines.Length > 1)
+            {
+                Console.WriteLine(error.Lines.First());
+                Console.WriteLine(new string('^', error.Lines[0].Length - error.Span.Start.Column));
+                for (int i = 1; i < error.Lines.Length - 1; i++)
+                {
+                    Console.WriteLine(error.Lines[i]);
+                    Console.WriteLine(new string('^', error.Lines[i].Length));
+                }
+                Console.WriteLine(error.Lines.Last());
+                Console.WriteLine(new string('^', error.Lines.Last().Length - error.Span.End.Column));
+            }
+            else
+            {
+                Console.WriteLine(error.Lines.First());
+                Console.WriteLine(new string('^', error.Span.Length));
+                Console.WriteLine($"{error.Severity} {error.Span}: {error.Message}");
+            }
             Console.ForegroundColor = ConsoleColor.Gray;
         }
     }

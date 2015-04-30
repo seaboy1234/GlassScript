@@ -43,6 +43,7 @@
     <Compile Include="Language\ErrorSink.cs" />
     <Compile Include="Language\Lexer\GlassScriptLexer.cs" />
     <Compile Include="Language\Lexer\StringExtensions.cs" />
+    <Compile Include="Language\SourceCode.cs" />
     <Compile Include="Language\SourceLocation.cs" />
     <Compile Include="Language\SourceSpan.cs" />
     <Compile Include="Language\Syntax\SyntaxKind.cs" />

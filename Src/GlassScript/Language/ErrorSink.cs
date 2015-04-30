@@ -9,7 +9,7 @@ namespace GlassScript.Language
 {
     public sealed class ErrorEntry
     {
-        public string Line { get; }
+        public string[] Lines { get; }
 
         public string Message { get; }
 
@@ -17,10 +17,10 @@ namespace GlassScript.Language
 
         public SourceSpan Span { get; }
 
-        public ErrorEntry(string message, string line, Severity severity, SourceSpan span)
+        public ErrorEntry(string message, string[] lines, Severity severity, SourceSpan span)
         {
             Message = message;
-            Line = line;
+            Lines = lines;
             Span = span;
             Severity = severity;
         }
@@ -37,9 +37,9 @@ namespace GlassScript.Language
             _errors = new List<ErrorEntry>();
         }
 
-        public void AddError(string message, string line, Severity severity, SourceSpan span)
+        public void AddError(string message, SourceCode sourceCode, Severity severity, SourceSpan span)
         {
-            _errors.Add(new ErrorEntry(message, line, severity, span));
+            _errors.Add(new ErrorEntry(message, sourceCode.GetLines(span.Start.Line, span.End.Line), severity, span));
         }
 
         public void Clear()
