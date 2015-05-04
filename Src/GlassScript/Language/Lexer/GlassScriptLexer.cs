@@ -136,6 +136,8 @@ namespace GlassScript.Language.Lexer
             {
                 yield return LexToken();
             }
+
+            yield return CreateToken(TokenKind.EndOfFile);
         }
 
         private Token LexToken()
