@@ -8,7 +8,8 @@ namespace GlassScript.Language.Lexer
 {
     public sealed class GlassScriptLexer
     {
-        private static readonly string[] _Keywords = { "class", "func", "new", "if", "else", "switch", "case", "default", "do", "while", "for", "var", "null" };
+        private static readonly string[] _Keywords = { "class", "func", "prop", "cotr", "new", "if", "else", "switch", "case", "default",
+                                                       "break", "return", "do", "while", "for", "var", "null", "true", "false" };
 
         private StringBuilder _builder;
         private int _column;
