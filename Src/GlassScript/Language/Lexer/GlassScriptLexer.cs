@@ -41,9 +41,16 @@ namespace GlassScript.Language.Lexer
 
         public IEnumerable<Token> LexFile(string sourceCode)
         {
-            _sourceCode = new SourceCode(sourceCode);
+            return LexFile(new SourceCode(sourceCode));
+        }
+
+        public IEnumerable<Token> LexFile(SourceCode sourceCode)
+        {
+            _sourceCode = sourceCode;
             _builder.Clear();
             _line = 1;
+            _index = 0;
+            _column = 0;
             CreateToken(TokenKind.EndOfFile);
 
             return LexContents();
