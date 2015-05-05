@@ -1,0 +1,97 @@
+﻿################################
+#                              #
+#  GlassScript Parser Grammar  #
+#                              #
+################################
+
+start = ( { class declaration | method declaration }, { statement } ) | { statement } ;
+
+type annotation = "<", identifier, ">" ;
+
+scope = "{", { statement }, "}" ;
+lambda body = "=>", expression or scope ;
+
+scope or lambda = scope | lambda body ;
+
+expression or scope = (expression, ";") | scope ;
+
+argument list = { method argument } ;
+method argument = identifier, [ ":", identifier ] ;
+
+(* Declarations *)
+
+class declaration = "class", identifier, "{", class member, "}" ;
+class member = constructor declaration | method declaration | property declaration | field declaration ;
+
+constructor declaration = "cotr", argument list, scope ;
+method declaration = "func", identifier, [ type annotation ], argument list, scope or lambda ;
+property declaration = "prop", type annotation, identifier, ( "{", property body, "}" ) | lambda body ;
+field declaration = identifier, identifier, [ "=" , expression ], ";" ;
+
+property body = ( "get" | "set" ), scope or lambda, [ ( "get" | "set" ), scope or lambda ] ;
+
+variable declaration = "var", identifier, [ ":", identifier ], [ "=", expression ] ;
+
+(* Statements *)
+
+statement = if statement | while statement | do while statement | for statement | switch statement | ( expression, ";" ) ;
+
+predicate = "(", logical expression, ")" ;
+
+if statement = "if", predicate, expression or scope ;
+while statement = "while", predicate, expression or scope ;
+do while statement = "do", expression or scope, "while", predicate, ";" ;
+for statement = "for", "(", (variable declaration | empty statement), logical expression, expression, ")", expression or scope ;
+
+switch statement = "switch", "(", expression, ")", "{", switch item, { switch item }, "}" ;
+switch item = case list, { statement } ;
+case list = case statement | default statement, { case statement | default statement } ;
+case statement = "case", constant expression, ":" ;
+default statement = "default", ":" ;
+
+(* Expressions *)
+
+expression = assignment expression ;
+
+assignment expression = logical expression, assignment operator, assignment expression ;
+logical expression = equality expression, logical operator, logical expression ;
+equality expression = relational expression, equality operator, equality expression ;
+relational expression = bitwise expression, relational operator, relational expression ;
+bitwise expression = shift expression, bitwise operator, bitwise expression ;
+shift expression = additive expression, shift operator, shift expression ;
+additive expression = multiplicative expression, additive operator, additive expression ;
+multiplicative expression = unary expression, multiplicative operator, multiplicative expression ;
+unary expression = (prefix unary operator, primary expression) | (primary expression, suffix unary operator) ;
+primary expression = identifier | constant expression | method call expression | new expression 
+                   | array access expression | reference expression | precedence override expression 
+                   | lambda expression;
+
+precedence override expression = "(", expression, ")" ;
+
+method call expression = ( identifier | reference expression ), "(", { expression }, ")" ;
+array access expression = ( identifier | reference expression), "[", expression, { expression }, "]" ;
+new expression = "new", method call expression ;
+
+lambda expression = ( single argument lambda | full lambda ), lambda body ;
+single argument lambda = method argument ;
+full lambda = "(", argument list, ")" ;
+
+reference expression = ( identifier | method call expression | array access expression | new expression ), ".", 
+                       ( identifier),
+                       { ".", identifier },
+                       ( method call expression | array access expression ) ;
+
+constant expression = string literal | integer literal | float literal | boolean literal;
+
+(* Operators *)
+
+assignment operator = "=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "^=" | "|=" ;
+logical operator = "||" | "&&" ;
+equality operator = "==" | "!=" ;
+relational operator = ">" | "<" | ">=" | "<=" ;
+bitwise operator = "&" | "|" | "^" ;
+shift operator = "<<" | ">>" ;
+additive operator = "+" | "-" ;
+multiplicative operator = "*" | "/" | "%" ;
+prefix unary operator = "++" | "--" | "!" | "-" ;
+suffix unary operator = "++" | "--" ;

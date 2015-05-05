@@ -43,23 +43,62 @@
     <Compile Include="Language\ErrorSink.cs" />
     <Compile Include="Language\Lexer\GlassScriptLexer.cs" />
     <Compile Include="Language\Lexer\StringExtensions.cs" />
+    <Compile Include="Language\Parser\GlassScriptParser.cs" />
+    <Compile Include="Language\Parser\GlassScriptParser.Declarations.cs" />
+    <Compile Include="Language\Parser\GlassScriptParser.Expressions.cs" />
+    <Compile Include="Language\Parser\GlassScriptParser.PublicAPIs.cs" />
+    <Compile Include="Language\Parser\GlassScriptParser.Statements.cs" />
+    <Compile Include="Language\Parser\GlassScriptParserOptions.cs" />
+    <Compile Include="Language\Parser\SyntaxException.cs" />
     <Compile Include="Language\SourceCode.cs" />
     <Compile Include="Language\SourceLocation.cs" />
     <Compile Include="Language\SourceSpan.cs" />
+    <Compile Include="Language\SyntaxCatagory.cs" />
+    <Compile Include="Language\Syntax\Declarations\ClassDeclaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\ConstructorDeclaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\Declaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\FieldDeclaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\MethodDeclaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\ParameterDeclaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\PropertyDeclaration.cs" />
+    <Compile Include="Language\Syntax\Declarations\VariableDeclaration.cs" />
+    <Compile Include="Language\Syntax\Expressions\ArrayAccessExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\BinaryExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\ConstantExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\Expression.cs" />
+    <Compile Include="Language\Syntax\Expressions\IdentifierExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\LambdaExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\MethodCallExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\NewExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\ReferenceExpression.cs" />
+    <Compile Include="Language\Syntax\Expressions\UnaryExpression.cs" />
+    <Compile Include="Language\Syntax\SourceDocument.cs" />
+    <Compile Include="Language\Syntax\SourceVisitor.cs" />
+    <Compile Include="Language\Syntax\Statements\BlockStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\BreakStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\CaseStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\ContinueStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\ElseStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\EmptyStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\ForStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\IfStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\ReturnStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\Statement.cs" />
+    <Compile Include="Language\Syntax\Statements\SwitchStatement.cs" />
+    <Compile Include="Language\Syntax\Statements\WhileStatement.cs" />
     <Compile Include="Language\Syntax\SyntaxKind.cs" />
+    <Compile Include="Language\Syntax\SyntaxNode.cs" />
     <Compile Include="Language\Token.cs" />
     <Compile Include="Language\TokenCatagory.cs" />
     <Compile Include="Language\TokenKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Language\Parser\" />
-    <Folder Include="Language\Syntax\Expressions\" />
-    <Folder Include="Language\Syntax\Statements\" />
     <Folder Include="Runtime\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Language\Lexer\LexerGrammar.txt" />
+    <Content Include="Language\Parser\ParserGrammar.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
