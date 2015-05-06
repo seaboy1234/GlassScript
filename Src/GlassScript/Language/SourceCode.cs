@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GlassScript.Language.Lexer;
+using GlassScript.Language.Syntax;
 
 namespace GlassScript.Language
 {
@@ -131,6 +132,18 @@ namespace GlassScript.Language
 
             // Line indexes are offset by +1 compared to array indexes.
             return new Subset<string>(Lines, start - 1, end - 1).ToArray();
+        }
+
+        public string GetSpan(SourceSpan span)
+        {
+            int start = span.Start.Index;
+            int length = span.Length;
+            return _sourceCode.Substring(start, length);
+        }
+
+        public string GetSpan(SyntaxNode node)
+        {
+            return GetSpan(node.Span);
         }
     }
 }
