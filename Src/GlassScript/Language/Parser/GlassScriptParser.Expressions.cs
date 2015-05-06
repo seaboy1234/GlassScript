@@ -404,10 +404,23 @@ namespace GlassScript.Language.Parser
                 Take(TokenKind.RightParenthesis);
                 return ParseLambdaExpression(start, new ParameterDeclaration[0]);
             }
-
+            if (_current == TokenKind.Identifier
+            && (_next == TokenKind.Comma
+                || (_next == TokenKind.RightParenthesis && Peek(2) == TokenKind.FatArrow)
+                || _next == TokenKind.Colon))
+            {
+                _index--;
+                var parameters = ParseParameterList();
+                return ParseLambdaExpression(start, parameters);
+            }
             var expr = ParseExpression();
 
             Take(TokenKind.RightParenthesis);
+
+            if (_current == TokenKind.LeftParenthesis)
+            {
+                return ParseMethodCallExpression(expr);
+            }
 
             return expr;
         }
