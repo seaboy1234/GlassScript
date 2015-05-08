@@ -32,6 +32,8 @@ namespace GlassScript.Language
 
         public IEnumerable<ErrorEntry> Errors => _errors.AsReadOnly();
 
+        public bool HasErrors => _errors.Count > 0;
+
         public ErrorSink()
         {
             _errors = new List<ErrorEntry>();
