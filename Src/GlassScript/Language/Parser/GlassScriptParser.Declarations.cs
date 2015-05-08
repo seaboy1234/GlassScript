@@ -282,6 +282,7 @@ namespace GlassScript.Language.Parser
 
             if (_current == TokenKind.Colon)
             {
+                Take();
                 type = ParseName();
             }
             if (_current == TokenKind.Assignment)

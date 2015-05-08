@@ -12,8 +12,15 @@ namespace GlassScript.Language.Parser
         public Expression ParseExpression(SourceCode sourceCode, IEnumerable<Token> tokens)
         {
             InitializeParser(sourceCode, tokens, GlassScriptParserOptions.OptionalSemicolons);
-
-            return ParseExpression();
+            try
+            {
+                return ParseExpression();
+            }
+            catch (SyntaxException)
+            {
+                // Errors are located in the ErrorSink.
+                return null;
+            }
         }
 
         public SourceDocument ParseFile(SourceCode sourceCode, IEnumerable<Token> tokens)
@@ -24,8 +31,14 @@ namespace GlassScript.Language.Parser
         public SourceDocument ParseFile(SourceCode sourceCode, IEnumerable<Token> tokens, GlassScriptParserOptions options)
         {
             InitializeParser(sourceCode, tokens, options);
-
-            return ParseDocument();
+            try
+            {
+                return ParseDocument();
+            }
+            catch (SyntaxException)
+            {
+                return null;
+            }
         }
 
         public SyntaxNode ParseStatement(SourceCode sourceCode, IEnumerable<Token> tokens)
@@ -37,7 +50,14 @@ namespace GlassScript.Language.Parser
         {
             InitializeParser(sourceCode, tokens, options);
 
-            return ParseStatement();
+            try
+            {
+                return ParseStatement();
+            }
+            catch (SyntaxException)
+            {
+                return null;
+            }
         }
     }
 }

@@ -242,7 +242,7 @@ namespace GlassScript.Language.Parser
             return left;
         }
 
-        private ConstantExpression ParseConstantExpression()
+        private Expression ParseConstantExpression()
         {
             ConstantKind kind;
             if (_current == "true" || _current == "false")
@@ -268,7 +268,14 @@ namespace GlassScript.Language.Parser
 
             var token = Take();
 
-            return new ConstantExpression(token.Span, token.Value, kind);
+            var expr = new ConstantExpression(token.Span, token.Value, kind);
+
+            if (_current == TokenKind.Dot)
+            {
+                return ParseReferenceExpression(expr);
+            }
+
+            return expr;
         }
 
         private Expression ParseEqualityExpression()
@@ -317,7 +324,8 @@ namespace GlassScript.Language.Parser
 
         private Expression ParseMethodCallExpression()
         {
-            return ParseIdentiferExpression();
+            var hint = ParseIdentiferExpression();
+            return ParseMethodCallExpression(hint);
         }
 
         private Expression ParseMethodCallExpression(Expression reference)
@@ -330,12 +338,19 @@ namespace GlassScript.Language.Parser
                     arguments.Add(ParseExpression());
                     while (_current == TokenKind.Comma)
                     {
+                        Take(TokenKind.Comma);
                         arguments.Add(ParseExpression());
                     }
                 }
             }, TokenKind.LeftParenthesis, TokenKind.RightParenthesis);
 
-            return new MethodCallExpression(CreateSpan(reference), reference, arguments);
+            var expr = new MethodCallExpression(CreateSpan(reference), reference, arguments);
+            if (_current == TokenKind.Dot)
+            {
+                return ParseReferenceExpression(expr);
+            }
+
+            return expr;
         }
 
         private Expression ParseMultiplicativeExpression()
@@ -421,6 +436,10 @@ namespace GlassScript.Language.Parser
             {
                 return ParseMethodCallExpression(expr);
             }
+            else if (_current == TokenKind.Dot)
+            {
+                return ParseReferenceExpression(expr);
+            }
 
             return expr;
         }
@@ -458,6 +477,10 @@ namespace GlassScript.Language.Parser
                 if (_next == TokenKind.Dot)
                 {
                     return ParseReferenceExpression();
+                }
+                else if (_next == TokenKind.LeftParenthesis)
+                {
+                    return ParseMethodCallExpression();
                 }
                 return ParseIdentiferExpression();
             }
